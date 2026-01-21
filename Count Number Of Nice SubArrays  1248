@@ -1,0 +1,25 @@
+class Solution(object):
+    def numberOfSubarrays(self, nums, goal):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        def SubArraySumWithLessThanOrEqualToGoal(nums, goal):
+            if goal < 0 :
+                return 0
+            sum = 0
+            count = 0
+            left, right = 0,0
+            n = len(nums)
+            while right < n :
+                sum += nums[right]
+                while sum>goal :
+                    sum -= nums[left]
+                    left+=1
+                count+=right-left+1
+                right += 1
+            return count
+        for i in range (len(nums)) :
+            nums[i] = nums[i]%2
+        return SubArraySumWithLessThanOrEqualToGoal(nums, goal) - SubArraySumWithLessThanOrEqualToGoal(nums, goal-1)
