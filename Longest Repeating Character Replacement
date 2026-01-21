@@ -1,0 +1,24 @@
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        n = len(s)
+        maxLen = 0
+        maxfreq = 0
+        dic = {}
+        #maxconvertions = windowlen-max frequency
+        left, right = 0,0
+        while right < n :
+            if s[right] in dic :
+                dic[s[right]] += 1
+            else :
+                dic[s[right]] = 1
+            #maxfreq = max(maxfreq,dic[s[right]])
+            maxfreq = max(dic.values())
+            while right-left+1-maxfreq > k :
+                dic[s[left]] -= 1
+                left+=1
+                if dic[s[left]] == 0:
+                    del dic[s[left]]
+            maxLen = max(maxLen, right-left+1)
+            right += 1
+        return maxLen
+            
