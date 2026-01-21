@@ -1,0 +1,19 @@
+class Solution:
+    def totalFruit(self, fruits: List[int]) -> int:
+        right, left = 0, 0
+        maxLen = 0
+        n = len(fruits)
+        dic = {}
+        while right<n :
+            if fruits[right] in dic :
+                dic[fruits[right]]+=1
+            else :
+                dic[fruits[right]]=1
+            while len(dic)>2 :
+                dic[fruits[left]] -= 1
+                if dic[fruits[left]] == 0:
+                    del dic[fruits[left]]
+                left+=1
+            maxLen = max(maxLen, right-left+1)
+            right += 1
+        return maxLen
