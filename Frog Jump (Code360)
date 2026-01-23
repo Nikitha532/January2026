@@ -1,0 +1,25 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+from typing import *
+
+  
+def frogJump(n: int, heights: List[int]) -> int:
+    def minenergy(ind, heights,dp):
+        if ind == 0:
+            return 0
+        if dp[ind]!=-1:
+            return dp[ind]
+        onejump = abs(heights[ind]-heights[ind-1])+minenergy(ind-1, heights, dp)
+        twojump = float("inf")
+        if ind > 1 :
+            twojump = abs(heights[ind]-heights[ind-2])+minenergy(ind-2, heights, dp)
+        dp[ind] = min(onejump, twojump)
+        return dp[ind]
+    n = len(heights)
+    ind = n-1
+    dp = [-1]*(n+1)
+    return minenergy(ind, heights, dp)
+
