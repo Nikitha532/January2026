@@ -1,0 +1,10 @@
+def countWays(index):
+    if index == 0:
+        return 1
+    if index<0:
+        return 0
+    onestep = countWays(index-1)
+    twosteps = countWays(index-2)
+    return onestep + twosteps
+index = int(input())
+print(countWays(index))
