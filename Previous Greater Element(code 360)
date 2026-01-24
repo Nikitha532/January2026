@@ -1,0 +1,15 @@
+class Solution:
+	def preGreaterEle(self, arr):
+        stack = []
+        ans = []
+        n = len(arr)
+        for ind in range(0,n) :
+            curelement = arr[ind]
+            while len(stack)!=0 and stack[-1]<=curelement :
+                stack.pop()
+            if len(stack) == 0:
+                ans.append(-1)
+            else :
+                ans.append(stack[-1])
+            stack.append(curelement)
+        return ans
