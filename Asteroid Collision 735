@@ -1,0 +1,35 @@
+class Solution(object):
+    def asteroidCollision(self, asteroids):
+        """
+        :type asteroids: List[int]
+        :rtype: List[int]
+        """
+        """
+        stack = []
+        for ast in asteroids :
+            while stack and stack[-1] > 0 and ast < 0 :
+                if stack[-1] < -ast :
+                    stack.pop()
+                    continue
+                elif stack[-1] == -ast :
+                    stack.pop()
+                break
+            else :
+                stack.append(ast)
+        return stack
+        """
+        stack = []
+        n = len(asteroids)
+        for ind in range(0, n):
+            if asteroids[ind] > 0 :
+                stack.append(asteroids[ind])
+            else :
+                while len(stack)!=0 and stack[-1]>0 and stack[-1]<abs(asteroids[ind]) :
+                    stack.pop()
+                if len(stack)==0:
+                    stack.append(asteroids[ind])
+                elif stack[-1]>0 and stack[-1] == abs(asteroids[ind]):
+                    stack.pop()
+                elif stack[-1]<0:
+                    stack.append(asteroids[ind])
+        return stack
