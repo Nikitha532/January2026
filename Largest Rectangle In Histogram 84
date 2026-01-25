@@ -1,0 +1,41 @@
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        #height[I]*(nseI-pseI-1)
+        #Using next_smaller_element,previous_smaller_element
+        def findnse(heights):
+            n = len(heights)
+            stack = []
+            ans = []
+            for ind in range(n-1, -1, -1):
+                currelement = heights[ind]
+                while len(stack)!=0 and heights[stack[-1]]>=currelement :
+                    stack.pop()
+                if len(stack) == 0:
+                    ans.append(n)
+                else:
+                    ans.append(stack[-1])
+                stack.append(ind)
+            return ans[::-1]
+        def findpse(heights):
+            n = len(heights)
+            stack = []
+            ans = []
+            for ind in range(0,n):
+                currelement = heights[ind]
+                while len(stack)!=0 and heights[stack[-1]]>=currelement :
+                    stack.pop()
+                if len(stack) == 0:
+                    ans.append(-1)
+                else :
+                    ans.append(stack[-1])
+                stack.append(ind)
+            return ans
+        nse = findnse(heights)
+        pse = findpse(heights)
+        area = 0
+        maxarea = 0
+        n = len(heights)
+        for i in range(0,n):
+            area = heights[i]*(nse[i]-pse[i]-1)
+            maxarea = max(area, maxarea)
+        return maxarea
