@@ -1,0 +1,56 @@
+class Node:
+    def __init__(self, key = -1,value = -1):
+        self.prev = None
+        self.next = None
+        self.key = key
+        self.value = value
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.head = Node()
+        self.tail = Node()
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        self.mpp = {}
+    def addAfterHead(self,newnode):
+        nextnode = self.head.next
+        self.head.next = newnode
+        newnode.prev = self.head
+        newnode.next = nextnode
+        nextnode.prev = newnode
+    def deleteNode(self, node):
+        prevnode = node.prev
+        nextnode = node.next
+        prevnode.next = nextnode
+        nextnode.prev = prevnode
+        node.next = None
+        node.prev = None
+    def get(self, key: int) -> int:
+        if (key not in self.mpp):
+            return -1
+        node = self.mpp[key]
+        self.deleteNode(node)
+        self.addAfterHead(node)
+        return node.value
+
+    def put(self, key: int, value: int) -> None:
+        if (key in self.mpp):
+            node = self.mpp[key]
+            node.value = value
+            self.deleteNode(node)
+            self.addAfterHead(node)
+            return
+        if self.capacity == len(self.mpp) :
+            node = self.tail.prev
+            del self.mpp[node.key]
+            self.deleteNode(node)
+        newnode = Node(key,value)
+        self.addAfterHead(newnode)
+        self.mpp[key] = newnode
+
+
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
